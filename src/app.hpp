@@ -15,6 +15,7 @@
 // clang-format on
 
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
 // component
@@ -75,6 +76,7 @@ private:
     ecs_entity_t m_selected_entity = 0;
     std::unique_ptr<IDRegister> m_id_register;
     ImguiNodeEditorID m_node_editor_id;
+    std::unordered_map<ecs_table_t*, bool> m_table_open_map;
 
     void updateTelemetry();
     void displayECSWorld(ecs_world_t*);
@@ -88,13 +90,14 @@ private:
 
     void displayComponentRecord(ecs_component_record_t*, std::string label);
     void displayStore(ecs_world_t* world, ecs_store_t*);
-    void displaySparseWithTable(ecs_world_t* world, ecs_sparse_t* sparse,
-                                const std::string& label);
     void displayTable(ecs_world_t*, ecs_table_t*, bool is_root_table);
-    void displayAllTableInSparseSet(ecs_world_t*);
+    void displayTableMap(ecs_world_t*, ecs_hashmap_t* table_map);
+    void displaySparseWithTable(ecs_world_t* world, ecs_sparse_t* sparse, const std::string& label);
     const ecs_type_info_t* getComponentTypeInfo(ecs_id_t);
 
     void displayPlayerComponent(Player&);
     void displayPositionComponent(Position&);
     void displayNameComponent(Name&);
+
+    void displayGraphEdge(ecs_world_t* world, ecs_graph_edge_t*);
 };
